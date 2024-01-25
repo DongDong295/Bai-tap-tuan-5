@@ -33,9 +33,9 @@ class _ProductListScreenState extends State<ProductListScreen>{
     fetchProducts();
   }
   Future<void> fetchProducts() async {
-    final response = await http.get(Uri.parse(""));
-    if(response.statusCode==2000){
-      final Map<String,dynamic> data=jsonDecode(response.body);
+    final response = await http.get(Uri.parse("http://192.168.1.8:8080/get/get.php"));
+    if(response.statusCode==200){
+      final Map<String,dynamic> data=json.decode(response.body);
       setState(() {
         products=convertMapToList(data);
       });
@@ -106,28 +106,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Danh sach san pham',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: ProductListScreen(),
+      home: HomeScreen(),
     );
+  }
+}
+class HomeScreen extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Trang chu"),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ProductListScreen()),);
+          },
+          child: Text("Go to ProductListScreen"),
+        )
+      ),
+      );
   }
 }
 
