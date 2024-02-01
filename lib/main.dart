@@ -85,7 +85,13 @@ class _ProductListScreenState extends State<ProductListScreen>{
                   width: 50,
                   height: 50,
                   fit: BoxFit.cover,
-                )
+                ),
+                  onTap: (){
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ProductDetailScreen(products[index]),
+                      ),
+                    );
+                  },
                 );
               })
           : Center(
@@ -93,6 +99,65 @@ class _ProductListScreenState extends State<ProductListScreen>{
       )
     );
   }
+}
+
+class ProductDetailScreen extends StatelessWidget{
+  final Product product;
+  ProductDetailScreen(this.product);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Thong tin san pham"),
+        actions: [
+          ElevatedButton(onPressed: (){
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CartScreen()),);
+          },
+              child: Icon(Icons.shopping_cart),
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(0)
+              ),
+          ),
+        ],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(padding: const EdgeInsets.all(8.0),
+          child: Text('Brand: ${product.brands_filter_facet}'),
+      ),
+      Image.network(product.search_image),
+      Padding(padding: const EdgeInsets.all(8),
+        child: Text('Info: ${product.product_additional_info}',
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+      ),
+      Padding(padding: const EdgeInsets.all(8),
+      child: Text('ID: ${product.styleid}'),
+      ),
+      Padding(padding: const EdgeInsets.all(8),
+      child: Text('Price: ${product.price}'),
+      ),
+      ],
+    ),
+    );
+  }
+}
+
+class CartScreen extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Shopping Cart'),),
+      body: Center(
+        child: Text('Gio hang'),
+      ),
+    );
+  }
+  
 }
 
 void main() {
